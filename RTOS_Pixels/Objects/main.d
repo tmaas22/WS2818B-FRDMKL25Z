@@ -1,0 +1,12 @@
+.\objects\main.o: Source\main.c
+.\objects\main.o: Source\integer.h
+.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\main.o: C:\Keil_v5\ARM\PACK\Keil\Kinetis_KLxx_DFP\1.13.0\Device\Include\MKL25Z4.h
+.\objects\main.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.5.1\CMSIS\Core\Include\core_cm0plus.h
+.\objects\main.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.5.1\CMSIS\Core\Include\cmsis_version.h
+.\objects\main.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.5.1\CMSIS\Core\Include\cmsis_compiler.h
+.\objects\main.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.5.1\CMSIS\Core\Include\cmsis_armcc.h
+.\objects\main.o: .\RTE\Device\MKL25Z128xxx4\system_MKL25Z4.h
+.\objects\main.o: Source\spi_io.h
+.\objects\main.o: Source\LEDs.h
+.\objects\main.o: Source\debug.h
