@@ -69,6 +69,7 @@ void Start_TPM(void) {
 }
 
 
+#define INTENSITY_IDX_OFFSET 3;
 
 void setPatterns(void){
 		int j = 0;
@@ -80,7 +81,7 @@ void setPatterns(void){
 		q = 0xC0;
 		for(j = 0; j < BITS_PER_LED; j++){
 			// Set the last bit of each RGB color to 1 (SPI
-			if((j+1)%8 == 0){
+			if((j+2)%8 == 0){
 				my_array[j+temp] = 0xF8;
 				continue;
 			}
@@ -115,7 +116,7 @@ void setPatterns(void){
 		q = 0xC0;
 		for(j = 0; j < BITS_PER_LED; j++){			
 			// Set the last bit of each RGB color to 1 (SPI
-			if((j+1)%8 == 0){
+			if((j+2)%8 == 0){
 				pattern_2[j+24+temp] = 0xF8;
 				continue;
 			}
@@ -156,7 +157,7 @@ void setPatterns(void){
 		q = 0xC0;
 		for(j = 0; j < BITS_PER_LED; j++){			
 			// Set the last bit of each RGB color to 1 (SPI
-			if((j+1)%8 == 0){
+			if((j+2)%8 == 0){
 				pattern_3[j+48+temp] = 0xF8;
 				continue;
 			}
