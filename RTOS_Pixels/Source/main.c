@@ -77,8 +77,13 @@ void setPatterns(void){
 	BYTE q;
 	for(; w < LED_COUNT/PATTERN_SIZE; w++){
 		temp = w*BITS_PER_LED*PATTERN_SIZE;
-		q = 0xF8;
+		q = 0xC0;
 		for(j = 0; j < BITS_PER_LED; j++){
+			// Set the last bit of each RGB color to 1 (SPI
+			if((j+1)%8 == 0){
+				my_array[j+temp] = 0xF8;
+				continue;
+			}
 			my_array[j+temp] = q;
 		}
 		q = 0xC0;
@@ -107,8 +112,13 @@ void setPatterns(void){
 			pattern_2[j+temp] = q;
 		}
 		
-		q = 0xF8;
-		for(j = 0; j < BITS_PER_LED; j++){
+		q = 0xC0;
+		for(j = 0; j < BITS_PER_LED; j++){			
+			// Set the last bit of each RGB color to 1 (SPI
+			if((j+1)%8 == 0){
+				pattern_2[j+24+temp] = 0xF8;
+				continue;
+			}
 			pattern_2[j+24+temp] = q;
 		}
 		
@@ -143,8 +153,13 @@ void setPatterns(void){
 			pattern_3[j+24+temp] = q;
 		}
 		
-		q = 0xF8;
-		for(j = 0; j < BITS_PER_LED; j++){
+		q = 0xC0;
+		for(j = 0; j < BITS_PER_LED; j++){			
+			// Set the last bit of each RGB color to 1 (SPI
+			if((j+1)%8 == 0){
+				pattern_3[j+48+temp] = 0xF8;
+				continue;
+			}
 			pattern_3[j+48+temp] = q;
 		}
 	}
