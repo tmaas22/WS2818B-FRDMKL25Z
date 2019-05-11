@@ -69,6 +69,7 @@ void Start_TPM(void) {
 }
 
 
+#define PATTERN_FREQ_MS	100
 #define INTENSITY_IDX_OFFSET 4
 #define RED_INTENSITY_OFFSET 5
 
@@ -171,7 +172,7 @@ void setPatterns(void){
 int main(void) {
 	Init_Debug_Signals();
 	Init_RGB_LEDs();
-	Init_TPM(180);
+	Init_TPM(PATTERN_FREQ_MS);
 	Control_RGB_LEDs(1,1,0);	// Yellow - starting up
 
 	int j = 0;
