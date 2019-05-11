@@ -5,7 +5,7 @@
 ".\objects\leds.o"
 ".\objects\startup_mkl25z4.o"
 ".\objects\system_mkl25z4.o"
---strict --scatter ".\Objects\ulibSD.sct"
+--strict --scatter ".\Objects\RTOS_Pixels.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
---list ".\Listings\ulibSD.map" -o .\Objects\ulibSD.axf
+--list ".\Listings\RTOS_Pixels.map" -o .\Objects\RTOS_Pixels.axf
