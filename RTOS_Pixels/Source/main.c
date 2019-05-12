@@ -72,8 +72,9 @@ void Start_TPM(void) {
 
 uint32_t calculateWhiteBits(void){
 	uint8_t bits = (WHITE_INTENSITY_PERCENT*255)/100;
-	
-	return (bits << 8*2) | (bits << 8*1) | (bits << 8*0);
+	uint8_t blue_bits = (BLUE_INTENSITY_PERCENT*255)/100;
+	uint8_t green_bits = (GREEN_INTENSITY_PERCENT*255)/100;
+	return (blue_bits << 8*2) | (bits << 8*1) | (green_bits << 8*0);
 }
 
 
