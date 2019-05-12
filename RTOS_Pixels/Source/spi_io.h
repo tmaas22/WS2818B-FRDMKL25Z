@@ -12,6 +12,13 @@
 #include "integer.h"        /* Type redefinition for portability */
 
 
+// Intensity and Chase Controls
+#define WHITE_INTENSITY_PERCENT 7
+#define PATTERN_FREQ_MS	100
+#define RED_INTENSITY_PERCENT 20
+
+
+
 #define USE_POLL 0
 
 #define SLAVE 0

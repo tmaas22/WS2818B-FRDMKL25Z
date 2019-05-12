@@ -69,12 +69,6 @@ void Start_TPM(void) {
 }
 
 
-#ifndef WHITE_INTENSITY_PERCENT
-#define WHITE_INTENSITY_PERCENT 10
-#endif
-
-#define PATTERN_FREQ_MS	100
-#define RED_INTENSITY_OFFSET 3
 
 uint32_t calculateWhiteBits(void){
 	uint8_t bits = (WHITE_INTENSITY_PERCENT*255)/100;
@@ -83,16 +77,24 @@ uint32_t calculateWhiteBits(void){
 }
 
 
+
+uint32_t calculateRedBits(void){
+	uint8_t bits = (RED_INTENSITY_PERCENT*255)/100;
+	
+	return (0x00 << 8*2) | (bits << 8*1) | (0x00 << 8*0);
+}
+
+
 void setPatterns(void){
-	
-	
-	
 	int j = 0;
 	int w = 0;
 	int temp = 0;
 	
-	uint32_t whiteBits = calculateWhiteBits();
-	uint32_t whiteBitsCopy = whiteBits;
+	uint32_t whiteBitsCopy = calculateWhiteBits();
+	uint32_t redBitsCopy = calculateRedBits();
+	uint32_t whiteBits, redBits;
+	
+
 	
 	BYTE q;
 	
@@ -116,14 +118,16 @@ void setPatterns(void){
 		
 		
 		// Define Red Pixel
+		redBits = redBitsCopy;
 		q = 0xC0;
 		for(j = 0; j < BITS_PER_LED; j++){
-			if(j==8){
+			if(redBits & 0x01){
 				q = 0xF8;
+			} else {
+				q = 0xC0;
 			}
-			if(j==(8+RED_INTENSITY_OFFSET)){
-				q=0xC0;
-			}
+			redBits >>= 1;
+			
 			my_array[j+24+temp] = q;
 		}
 		
@@ -161,14 +165,15 @@ void setPatterns(void){
 		
 		
 		// Define Red Pixel
+		redBits = redBitsCopy;
 		q = 0xC0;
 		for(j = 0; j < BITS_PER_LED; j++){
-			if(j==8){
+			if(redBits & 0x01){
 				q = 0xF8;
+			} else {
+				q = 0xC0;
 			}
-			if(j==(8+RED_INTENSITY_OFFSET)){
-				q=0xC0;
-			}
+			redBits >>= 1;
 			pattern_2[j+48+temp] = q;
 		}
 	}
@@ -177,14 +182,16 @@ void setPatterns(void){
 	for(w=0; w < LED_COUNT/PATTERN_SIZE; w++){
 		temp = w*BITS_PER_LED*PATTERN_SIZE;
 		
+		// Define Red Pixel
+		redBits = redBitsCopy;
 		q = 0xC0;
 		for(j = 0; j < BITS_PER_LED; j++){
-			if(j==8){
+			if(redBits & 0x01){
 				q = 0xF8;
+			} else {
+				q = 0xC0;
 			}
-			if(j==(8+RED_INTENSITY_OFFSET)){
-				q=0xC0;
-			}
+			redBits >>= 1;
 			pattern_3[j+temp] = q;
 		}
 		
@@ -218,19 +225,19 @@ int main(void) {
 	Init_TPM(PATTERN_FREQ_MS);
 	Control_RGB_LEDs(1,1,0);	// Yellow - starting up
 
-	int j = 0;
+
 	setPatterns();
 	
 	i = ARRAY_SIZE - 1;
 	
 	#ifdef USE_POLL
 	#if USE_POLL
-		j = 0;
+		int j = 0;
 	#endif
 	#endif
 	
 	Control_RGB_LEDs(0,0,0);
-//	Start_TPM();
+	Start_TPM();
 	SPI_Init();
 	while (1) {
 		#ifdef USE_POLL
