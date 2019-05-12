@@ -69,62 +69,98 @@ void Start_TPM(void) {
 }
 
 
+#ifndef WHITE_INTENSITY_PERCENT
+#define WHITE_INTENSITY_PERCENT 10
+#endif
+
 #define PATTERN_FREQ_MS	100
-#define INTENSITY_IDX_OFFSET 4
-#define RED_INTENSITY_OFFSET 5
+#define RED_INTENSITY_OFFSET 3
+
+uint32_t calculateWhiteBits(void){
+	uint8_t bits = (WHITE_INTENSITY_PERCENT*255)/100;
+	
+	return (bits << 8*2) | (bits << 8*1) | (bits << 8*0);
+}
+
 
 void setPatterns(void){
-		int j = 0;
+	
+	
+	
+	int j = 0;
 	int w = 0;
 	int temp = 0;
+	
+	uint32_t whiteBits = calculateWhiteBits();
+	uint32_t whiteBitsCopy = whiteBits;
+	
 	BYTE q;
+	
+	// Iterate through the entire LED_Count, adding 3 pixels (Pattern_size), each iteration.
 	for(; w < LED_COUNT/PATTERN_SIZE; w++){
 		temp = w*BITS_PER_LED*PATTERN_SIZE;
+		
+		whiteBits = whiteBitsCopy;
+		// Define white Pixel
+		for(j = 0; j < BITS_PER_LED; j++){
+			if(whiteBits & 0x800000){
+				q = 0xF8;
+			} else {
+				q = 0xC0;
+			}
+			whiteBits <<= 1;
+			
+			my_array[j+temp] = q;
+			
+		}
+		
+		
+		// Define Red Pixel
 		q = 0xC0;
 		for(j = 0; j < BITS_PER_LED; j++){
-			// Set the last bit of each RGB color to 1 (SPI
-			if((j+INTENSITY_IDX_OFFSET)%8 == 0){
-				my_array[j+temp] = 0xF8;
-				continue;
+			if(j==8){
+				q = 0xF8;
 			}
-			my_array[j+temp] = q;
-		}
-		q = 0xC0;
-			for(j = 0; j < BITS_PER_LED; j++){
-				if(j==8){
-					q = 0xF8;
-				}
-				if(j==(8+RED_INTENSITY_OFFSET)){
-					q=0xC0;
-				}
+			if(j==(8+RED_INTENSITY_OFFSET)){
+				q=0xC0;
+			}
 			my_array[j+24+temp] = q;
 		}
-			q = 0xC0;
-			for(j = 0; j < BITS_PER_LED; j++){
-
+		
+		// Define our Black (Off Pixel)
+		q = 0xC0;
+		for(j = 0; j < BITS_PER_LED; j++){
 			my_array[j+48+temp] = q;
 		}
 	}
 	
+
+	// Pattern 2
 	for(w=0; w < LED_COUNT/PATTERN_SIZE; w++){
 		temp = w*BITS_PER_LED*PATTERN_SIZE;
 		
+		// Define Black (Off) Pixel
 		q = 0xC0;
 		for(j = 0; j < BITS_PER_LED; j++){
-
 			pattern_2[j+temp] = q;
 		}
 		
-		q = 0xC0;
-		for(j = 0; j < BITS_PER_LED; j++){			
-			// Set the last bit of each RGB color to 1 (SPI
-			if((j+INTENSITY_IDX_OFFSET)%8 == 0){
-				pattern_2[j+24+temp] = 0xF8;
-				continue;
+		
+		// Define White Pixel
+		whiteBits = whiteBitsCopy;
+		for(j = 0; j < BITS_PER_LED; j++){	
+			if(whiteBits & 0x800000){
+				q = 0xF8;
+			} else {
+				q = 0xC0;
 			}
+			whiteBits <<= 1;
+			
 			pattern_2[j+24+temp] = q;
 		}
 		
+		
+		// Define Red Pixel
 		q = 0xC0;
 		for(j = 0; j < BITS_PER_LED; j++){
 			if(j==8){
@@ -136,9 +172,11 @@ void setPatterns(void){
 			pattern_2[j+48+temp] = q;
 		}
 	}
-		
+	
+	// Pattern 3
 	for(w=0; w < LED_COUNT/PATTERN_SIZE; w++){
 		temp = w*BITS_PER_LED*PATTERN_SIZE;
+		
 		q = 0xC0;
 		for(j = 0; j < BITS_PER_LED; j++){
 			if(j==8){
@@ -150,19 +188,24 @@ void setPatterns(void){
 			pattern_3[j+temp] = q;
 		}
 		
+		
+		// Define Black (Off) Pixel
 		q = 0xC0;
 		for(j = 0; j < BITS_PER_LED; j++){
-
 			pattern_3[j+24+temp] = q;
 		}
 		
+		// Define White Pixel
+		whiteBits = whiteBitsCopy;
 		q = 0xC0;
-		for(j = 0; j < BITS_PER_LED; j++){			
-			// Set the last bit of each RGB color to 1 (SPI
-			if((j+INTENSITY_IDX_OFFSET)%8 == 0){
-				pattern_3[j+48+temp] = 0xF8;
-				continue;
+		for(j = 0; j < BITS_PER_LED; j++){
+			if(whiteBits & 0x800000){
+				q = 0xF8;
+			} else {
+				q = 0xC0;
 			}
+			whiteBits <<= 1;
+			
 			pattern_3[j+48+temp] = q;
 		}
 	}
@@ -179,7 +222,12 @@ int main(void) {
 	setPatterns();
 	
 	i = ARRAY_SIZE - 1;
-	j = 0;
+	
+	#ifdef USE_POLL
+	#if USE_POLL
+		j = 0;
+	#endif
+	#endif
 	
 	Control_RGB_LEDs(0,0,0);
 	Start_TPM();
