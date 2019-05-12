@@ -103,12 +103,12 @@ void setPatterns(void){
 		whiteBits = whiteBitsCopy;
 		// Define white Pixel
 		for(j = 0; j < BITS_PER_LED; j++){
-			if(whiteBits & 0x800000){
+			if(whiteBits & 0x01){
 				q = 0xF8;
 			} else {
 				q = 0xC0;
 			}
-			whiteBits <<= 1;
+			whiteBits >>= 1;
 			
 			my_array[j+temp] = q;
 			
@@ -149,12 +149,12 @@ void setPatterns(void){
 		// Define White Pixel
 		whiteBits = whiteBitsCopy;
 		for(j = 0; j < BITS_PER_LED; j++){	
-			if(whiteBits & 0x800000){
+			if(whiteBits & 0x01){
 				q = 0xF8;
 			} else {
 				q = 0xC0;
 			}
-			whiteBits <<= 1;
+			whiteBits >>= 1;
 			
 			pattern_2[j+24+temp] = q;
 		}
@@ -199,12 +199,12 @@ void setPatterns(void){
 		whiteBits = whiteBitsCopy;
 		q = 0xC0;
 		for(j = 0; j < BITS_PER_LED; j++){
-			if(whiteBits & 0x800000){
+			if(whiteBits & 0x01){
 				q = 0xF8;
 			} else {
 				q = 0xC0;
 			}
-			whiteBits <<= 1;
+			whiteBits >>= 1;
 			
 			pattern_3[j+48+temp] = q;
 		}
@@ -230,7 +230,7 @@ int main(void) {
 	#endif
 	
 	Control_RGB_LEDs(0,0,0);
-	Start_TPM();
+//	Start_TPM();
 	SPI_Init();
 	while (1) {
 		#ifdef USE_POLL
