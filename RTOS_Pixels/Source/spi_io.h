@@ -13,9 +13,9 @@
 
 
 // Intensity and Chase Controls
-#define WHITE_INTENSITY_PERCENT 7
-#define PATTERN_FREQ_MS	100
-#define RED_INTENSITY_PERCENT 20
+#define WHITE_INTENSITY_PERCENT 4
+#define PATTERN_FREQ_MS	115
+#define RED_INTENSITY_PERCENT 12
 
 
 
