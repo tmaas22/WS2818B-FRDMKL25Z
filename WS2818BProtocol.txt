@@ -1,0 +1,56 @@
+// rgData: input, raw digital sample array
+// rgValue: output, decoded data array
+// rgFlag: output, decoded flag array
+
+var c = rgData.length // c = number of raw samples
+var pClock = false; // previous cock signal level
+var iStart = 0;     // used to keep track on word start index
+var cByte = 0;      // byte count per transmission
+var cBits = 0;      // bit counter
+var bValue = 0;     // value variable
+
+var pixelValue = 0; // valueVariable for Pixel
+var pixelByte = 0; // Counter for our Byte
+var pixelBits = 0; // Counter for pixel Bits
+
+for(var i = 0; i < c; i++){ // for each sample
+    var s = rgData[i]; // current sample
+    var fClock = 1&(s>>1); // pin1 is the clock signal
+    var fData = 1&(s>>0); // pin0 is the data signal
+    
+    if(pClock == 0 && fClock != 0){ // sample on clock rising edge
+        bValue <<= 1; // serial data bit, MSBit first
+        if(fData)  bValue |= 1;
+        
+        cBits++;
+        if(cBits==8){ // when got the 8th bit of the word store it
+            cByte++;
+            // store rgValue/Flag from word start index to current sample position
+
+            pixelValue <<= 1; // Serial Data MSBit first for our pixelValues
+            if(bValue >= 0xF0) pixelValue |= 1;
+
+            // Check if we've received 8 sets of SPI bytes == single Byte/Color for Pixel.
+            pixelBits++;
+            if(pixelBits == 8){
+                pixelByte++;
+                for(var j = iStart; j < i; j++){
+                    // Flag change will be visible on plot even when data remains constant.
+                    // This is useful in case we get more consecutive equal values.
+                    rgFlag[j] = pixelByte;
+                    rgValue[j] = pixelValue;
+                }
+                iStart = i+1; // next word might start after this sample
+
+                pixelBits = 0;
+                pixelValue = 0;
+            }
+
+            
+            cBits = 0;  // reset bit count for the next byte
+            bValue = 0; // reset value variable
+    
+        }
+    }
+    pClock = fClock; // previous clock level
+}
