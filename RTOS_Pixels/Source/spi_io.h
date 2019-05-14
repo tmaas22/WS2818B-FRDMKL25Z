@@ -16,9 +16,19 @@
 #define PATTERN_FREQ_MS	180
 
 		// Used for "White"
+#define USE_WHITE 1
+#ifdef USE_WHITE
+#if USE_WHITE == 1
 #define WHITE_R 8
 #define WHITE_B 8
 #define WHITE_G 8
+#elif
+// Change these if you want to choose different colors other than white
+#define WHITE_R 10
+#define WHITE_B 10
+#define WHITE_G 0 
+#endif
+#endif
 
 		// Used for the Red Bits
 #define OTHR_GREEN_INTENSITY 0
