@@ -16,14 +16,14 @@
 #define PATTERN_FREQ_MS	180
 
 		// Used for "White"
-#define WHITE_INTENSITY_PERCENT 0
-#define BLUE_INTENSITY_PERCENT 0
-#define GREEN_INTENSITY_PERCENT 12
+#define WHITE_R 8
+#define WHITE_B 8
+#define WHITE_G 8
 
 		// Used for the Red Bits
-#define OTHR_GREEN_INTENSITY 25
-#define OTHR_BLUE_INTENSITY 25
-#define RED_INTENSITY_PERCENT 2
+#define OTHR_GREEN_INTENSITY 0
+#define OTHR_BLUE_INTENSITY 0
+#define RED_INTENSITY_PERCENT 15
 
 #define USE_POLL 0
 

@@ -70,15 +70,6 @@ void Start_TPM(void) {
 
 
 
-uint32_t calculateWhiteBits(void){
-	uint8_t bits = (WHITE_INTENSITY_PERCENT*255)/100;
-	uint8_t blue_bits = (BLUE_INTENSITY_PERCENT*255)/100;
-	uint8_t green_bits = (GREEN_INTENSITY_PERCENT*255)/100;
-	return (green_bits << 8*2) | (bits << 8*1) | (blue_bits << 8*0);
-}
-
-
-
 uint32_t calculatePixelBits(uint8_t redPercent, uint8_t greenPercent, uint8_t bluePercent){
 	uint8_t redBits = (redPercent*255)/100;
 	uint8_t greenBits = (greenPercent*255)/100;
@@ -93,7 +84,7 @@ void setPatterns(void){
 	int w = 0;
 	int temp = 0;
 	
-	uint32_t whiteBitsCopy = calculateWhiteBits();
+	uint32_t whiteBitsCopy = calculatePixelBits(WHITE_R, WHITE_G, WHITE_B);
 	uint32_t redBitsCopy = calculatePixelBits(RED_INTENSITY_PERCENT, OTHR_GREEN_INTENSITY, OTHR_BLUE_INTENSITY);
 	uint32_t whiteBits, redBits;
 	

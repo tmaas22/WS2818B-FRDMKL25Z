@@ -3621,9 +3621,9 @@
       </Doc>
       <Doc>
         <Name>Source\spi_io.h</Name>
-        <ColumnNumber>34</ColumnNumber>
+        <ColumnNumber>32</ColumnNumber>
         <TopLine>4</TopLine>
-        <CurrentLine>21</CurrentLine>
+        <CurrentLine>26</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>
