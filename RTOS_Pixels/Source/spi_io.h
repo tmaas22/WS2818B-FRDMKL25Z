@@ -13,13 +13,17 @@
 
 
 // Intensity and Chase Controls
-#define WHITE_INTENSITY_PERCENT 8
-#define PATTERN_FREQ_MS	50
-#define RED_INTENSITY_PERCENT 12
-#define BLUE_INTENSITY_PERCENT 10
-#define GREEN_INTENSITY_PERCENT 80
+#define PATTERN_FREQ_MS	180
 
+		// Used for "White"
+#define WHITE_INTENSITY_PERCENT 0
+#define BLUE_INTENSITY_PERCENT 0
+#define GREEN_INTENSITY_PERCENT 12
 
+		// Used for the Red Bits
+#define OTHR_GREEN_INTENSITY 25
+#define OTHR_BLUE_INTENSITY 25
+#define RED_INTENSITY_PERCENT 2
 
 #define USE_POLL 0
 
